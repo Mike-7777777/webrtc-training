@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // 记录传入的roodId并称为ROOM_ID
+        const ROOM_ID = "<%= roomId %>"
+    </script>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="script.js" defer></script>
+    <title>Document</title>
+</head>
+<style>
+    #video-grid {
+        display: grid;
+        /* 自动填充 300px宽的视频图像 */
+        grid-template-columns: repeat(auto-fill, 300px);
+        /* 300px高的视频图像 */
+        grid-auto-rows: 300px;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+<body>
+    <div id="video-grid"></div>
+</body>
+</html>
