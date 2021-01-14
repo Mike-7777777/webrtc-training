@@ -25,3 +25,26 @@ peerjs --port 3001
 npm run devStart
 peerjs --port 3001
 ```
+
+chrome 只接受ssl https://github.com/ant-media/Ant-Media-Server/issues/1200
+
+需要在secure content下才能运行navigator.mediaDevices，否则就会undefined
+
+https://webrtc.github.io/samples/
+
+https://webrtc.org/getting-started/overview?hl=en
+
+IMPORTANT NOTES:
+ - Congratulations! 
+ - certificate and chain
+   /etc/letsencrypt/live/rtc.hk1.jabni.top/fullchain.pem
+ - key file
+   /etc/letsencrypt/live/rtc.hk1.jabni.top/privkey.pem
+
+```php
+server {
+       listen       80; 
+       server_name  rtc.hk1.jabni.top;
+       return      301 https://$host$request_uri;
+   }
+```
