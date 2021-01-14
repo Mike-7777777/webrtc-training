@@ -24,6 +24,7 @@ peerjs --port 3001
 # end 运行
 npm run devStart
 peerjs --port 3001
+peerjs 
 ```
 
 chrome 只接受ssl https://github.com/ant-media/Ant-Media-Server/issues/1200
