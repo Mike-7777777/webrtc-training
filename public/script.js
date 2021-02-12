@@ -10,7 +10,9 @@ const myPeer = new Peer({
         credential: 'mike',
         username: 'mike7777777'
     },
-    ]} 
+    ]},
+    host:'/',
+    port: '',
   })
 
 // 我的视频块 默认不收听自己的声音
