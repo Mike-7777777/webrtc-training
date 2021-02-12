@@ -1,9 +1,18 @@
 const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
-const myPeer = new Peer(undefined, {
-    host: '/',
-    port: '',
-})
+// const myPeer = new Peer(undefined, {
+//     host: '/',
+//     port: '',
+// })
+const myPeer = new Peer({
+    config: {'iceServers': [{ 
+        url: 'turn:stun.wblare.com:3478',
+        credential: 'mike',
+        username: 'mike7777777'
+    },
+    ]} 
+  })
+
 // 我的视频块 默认不收听自己的声音
 const myVideo = document.createElement('video')
 myVideo.muted = true
