@@ -96,6 +96,7 @@ soundbtn.onclick = function () {
 }
 // mute local mic
 const micbtn = document.getElementById("micbtn")
+// https://www.jianshu.com/p/b1a6a2c77f1f
 micbtn.onclick = function() {
   var tracks = myStream.getTracks(); //stream为MediaStream
   tracks.forEach((item) => {
