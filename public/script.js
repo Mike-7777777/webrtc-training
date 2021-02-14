@@ -18,7 +18,7 @@ const myPeer = new Peer({
   host: "/",
   port: "",
 });
-const myStream = null
+let myStream = null
 
 // 我的视频块 默认不收听自己的声音
 const myVideo = document.createElement("video");
