@@ -95,8 +95,8 @@ soundbtn.onclick = function () {
   }
 }
 // mute local mic
-const micbtn = document.getElementById("micbtn");
-function unMic() {
+const micbtn = document.getElementById("micbtn")
+micbtn.onclick = function() {
   var tracks = myStream.getTracks(); //stream为MediaStream
   tracks.forEach((item) => {
     if (item.kind === "audio") {
