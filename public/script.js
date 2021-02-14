@@ -77,8 +77,12 @@ function connectToNewUser(userId, stream) {
 // mute remote sound
 const soundbtn = document.getElementById('soundbtn')
 soundbtn.onclick = function(){
-    const video = document.getElementsByTagName('video').muted
-    !video
+    const video = document.getElementsByTagName('video')
+    if (video.muted === true) {
+        video.muted = false
+    }else{
+        video.muted = true
+    }
 }
 // mute local mic
 const micbtn = document.getElementById('micbtn')
