@@ -85,7 +85,8 @@ function connectToNewUser(userId, stream) {
 const soundbtn = document.getElementById("soundbtn")
 soundbtn.onclick = function () {
   const video = document.getElementsByTagName("video")
-  for (let i = 0; i < video.length; i++) {
+  // loop from i=1, cuz the first one is local stream, which is always false.
+  for (let i = 1; i < video.length; i++) {
     if (video[i].muted === true) {
       video[i].muted = false
     } else {
