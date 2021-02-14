@@ -82,17 +82,17 @@ function connectToNewUser(userId, stream) {
 
 // new code
 // mute remote sound
-const soundbtn = document.getElementById("soundbtn");
+const soundbtn = document.getElementById("soundbtn")
 soundbtn.onclick = function () {
-  const video = document.getElementsByTagName("video");
-  video.forEach(function (val, index) {
-    if (val.muted === true) {
-      val.muted = false;
+  const video = document.getElementsByTagName("video")
+  for (let i = 0; i < video.length; i++) {
+    if (video[i].muted === true) {
+      video[i].muted = false
     } else {
-      val.muted = true;
+      video[i].muted = true
     }
-  });
-};
+  }
+}
 // mute local mic
 const micbtn = document.getElementById("micbtn");
 function unMic() {
