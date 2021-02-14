@@ -100,8 +100,10 @@ const micbtn = document.getElementById("micbtn")
 micbtn.onclick = function() {
   var tracks = myStream.getTracks(); //stream为MediaStream
   tracks.forEach((item) => {
-    if (item.kind === "audio") {
+    if (item.kind === "audio" && item.enabled === true) {
       item.enabled = false;
+    }else if(item.kind === "audio" && item.enabled === false){
+      item.enabled = true;
     }
   });
 }
