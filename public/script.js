@@ -10,8 +10,8 @@ const myPeer = new Peer({
     iceServers: [
       {
         url: "turn:stun.wblare.com:3478",
-        credential: "mike",
-        username: "mike7777777",
+        credential: "mike7777777",
+        username: "mike",
       },
     ],
   },
