@@ -73,5 +73,15 @@ function connectToNewUser(userId, stream) {
     peers[userId] = call
 }
 
-// new code - mute remote sound
-// videoGrid.
+// new code 
+// mute remote sound
+const soundbtn = document.getElementById('soundbtn')
+soundbtn.onclick = function(){
+    const video = document.getElementsByTagName('video').muted
+    !video
+}
+// mute local mic
+const micbtn = document.getElementById('micbtn')
+function unMic() {
+    
+}
