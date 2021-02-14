@@ -1,8 +1,9 @@
 const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
+// local test
 // const myPeer = new Peer(undefined, {
 //     host: '/',
-//     port: '',
+//     port: '3001',
 // })
 const myPeer = new Peer({
     config: {'iceServers': [{ 
@@ -13,7 +14,7 @@ const myPeer = new Peer({
     ]},
     host:'/',
     port: '',
-  })
+})
 
 // 我的视频块 默认不收听自己的声音
 const myVideo = document.createElement('video')
@@ -23,7 +24,9 @@ navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true,
 }).then(stream => {
+    // 手动添加自己的视频块
     addVideoStream(myVideo,stream)
+    // 监听call命令，收到后
     myPeer.on('call', call => {
         call.answer(stream)
         const video = document.createElement('video')
@@ -69,3 +72,6 @@ function connectToNewUser(userId, stream) {
     })
     peers[userId] = call
 }
+
+// new code - mute remote sound
+// videoGrid.

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,10 +16,10 @@
 <style>
     #video-grid {
         display: grid;
-        /* 自动填充 300px宽的视频图像 */
+        /* 自动填充 宽的视频图像 */
         grid-template-columns: repeat(auto-fill, 300px);
-        /* 300px高的视频图像 */
-        grid-auto-rows: 300px;
+        /* 高的视频图像 */
+        grid-auto-rows:300px;
     }
 
     video {
@@ -27,7 +28,14 @@
         object-fit: cover;
     }
 </style>
+
 <body>
+    <!-- 本地控制区 -->
+    <!-- <div class="btn-line">
+        <button class="btn-func" id="sound">Sound</button>
+        <button class="btn-func" id="mic">Mic</button>
+    </div> -->
     <div id="video-grid"></div>
 </body>
+
 </html>
