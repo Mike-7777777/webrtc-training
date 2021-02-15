@@ -18,8 +18,8 @@
         display: grid;
         /* 自动填充 宽的视频图像 */
         grid-template-columns: repeat(auto-fill, 300px);
-        /* 高的视频图像 */
-        grid-auto-rows:300px;
+        /* 视频图像的高 */
+        grid-auto-rows:100px;
     }
 
     video {
@@ -30,12 +30,15 @@
 </style>
 
 <body>
-    <!-- 本地控制区 -->
+    <!-- 按钮控制区 -->
     <div class="btn-line">
         <button type="button" class="btn-func" id="soundbtn">Sound</button>
         <button type="button" class="btn-func" id="micbtn">Mic</button>
     </div>
     <div id="video-grid" autoplay playsinline></div>
+    <!-- 两种实现方式，一种是保留vg，将其不可见，
+        然后单独写用户列表，发言头像绿等features。
+        另一种是直接二合一 -->
 </body>
 
 </html>

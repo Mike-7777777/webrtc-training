@@ -1,10 +1,12 @@
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
+// ==========================================================
 // local test
 // const myPeer = new Peer(undefined, {
 //     host: '/',
 //     port: '3001',
 // })
+// server test
 const myPeer = new Peer({
   config: {
     iceServers: [
@@ -18,25 +20,32 @@ const myPeer = new Peer({
   host: "/",
   port: "",
 });
-let myStream = null
+// ==========================================================
+let myStream = null;
 
 // 我的视频块 默认不收听自己的声音
 const myVideo = document.createElement("video");
 myVideo.muted = true;
+// === ios
+myVideo.autoplay;
+myVideo.playsinline;
+// ===
 const peers = {};
 navigator.mediaDevices
   .getUserMedia({
-    video: true,
+    video: false,
     audio: true,
   })
   .then((stream) => {
     // 手动添加自己的视频块
-    myStream = stream
+    myStream = stream;
     addVideoStream(myVideo, myStream);
     // 监听call命令，收到后
     myPeer.on("call", (call) => {
       call.answer(stream);
       const video = document.createElement("video");
+      video.autoplay;
+      video.playsinline;
       call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
@@ -71,6 +80,8 @@ function addVideoStream(video, stream) {
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
   const video = document.createElement("video");
+  video.autoplay;
+  video.playsinline;
   call.on("stream", (userVideoStream) => {
     addVideoStream(video, userVideoStream);
   });
@@ -82,28 +93,28 @@ function connectToNewUser(userId, stream) {
 
 // new code
 // mute remote sound
-const soundbtn = document.getElementById("soundbtn")
+const soundbtn = document.getElementById("soundbtn");
 soundbtn.onclick = function () {
-  const video = document.getElementsByTagName("video")
+  const video = document.getElementsByTagName("video");
   // loop from i=1, cuz the first one is local stream, which is always false.
   for (let i = 1; i < video.length; i++) {
     if (video[i].muted === true) {
-      video[i].muted = false
+      video[i].muted = false;
     } else {
-      video[i].muted = true
+      video[i].muted = true;
     }
   }
-}
+};
 // mute local mic
-const micbtn = document.getElementById("micbtn")
+const micbtn = document.getElementById("micbtn");
 // https://www.jianshu.com/p/b1a6a2c77f1f
-micbtn.onclick = function() {
+micbtn.onclick = function () {
   var tracks = myStream.getTracks(); //stream为MediaStream
   tracks.forEach((item) => {
     if (item.kind === "audio" && item.enabled === true) {
       item.enabled = false;
-    }else if(item.kind === "audio" && item.enabled === false){
+    } else if (item.kind === "audio" && item.enabled === false) {
       item.enabled = true;
     }
   });
-}
+};
