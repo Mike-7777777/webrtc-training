@@ -25,7 +25,7 @@ const myPeer = new Peer(undefined, {
 // ==========================================================
 let myStream = null;
 let myName = null;
-const user_name = null;
+let user_name = null;
 const peers = {};
 const names = {};
 
