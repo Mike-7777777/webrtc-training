@@ -1,3 +1,4 @@
+// 04.30
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const nameGrid = document.getElementById("name-grid");
