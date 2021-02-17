@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-        // 记录传入的roodId并称为ROOM_ID
+        // 记录由server.js传入的roodId并称为ROOM_ID
         const ROOM_ID = "<%= roomId %>"
     </script>
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
@@ -19,13 +19,29 @@
         /* 自动填充 宽的视频图像 */
         grid-template-columns: repeat(auto-fill, 300px);
         /* 视频图像的高 */
-        grid-auto-rows:100px;
+        grid-auto-rows: 300px;
+    }
+
+    #name-grid {
+        display: grid;
+        /* 自动填充300宽的用户名区域 */
+        grid-template-columns: repeat(auto-fill, 300px);
+        /* 区域的高 */
+        grid-auto-rows: 100px;
     }
 
     video {
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    li {
+        list-style-type: circle;
+        width: 100%;
+        height: 100%;
+        border-style: solid;
+        border-width: 1px;
     }
 </style>
 
@@ -35,10 +51,18 @@
         <button type="button" class="btn-func" id="soundbtn">Sound</button>
         <button type="button" class="btn-func" id="micbtn">Mic</button>
     </div>
+    <!-- 视频(音频)块 -->
     <div id="video-grid" autoplay playsinline></div>
+    <!-- 在线列表 -->
     <!-- 两种实现方式，一种是保留vg，将其不可见，
         然后单独写用户列表，发言头像绿等features。
         另一种是直接二合一 -->
+    <div id="name-grid">
+        <!-- 由li标签组成 -->
+    </div>
+    <!-- <textarea id="chat"></textarea> -->
+
+    <!-- 用户列表 -->
 </body>
 
 </html>
