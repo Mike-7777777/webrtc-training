@@ -95,10 +95,12 @@ function getUserName() {
   user_name = prompt("plz write u name");
   if (user_name != null) {
     alert("welcome! ur name is: " + user_name);
+    return Promise.resolve(user_name);
   } else {
     alert("Invalid username");
+    return Promise.reject(e);
   }
-  return user_name;
+  
 }
 // 将一个stream加载到传入的video标签中播放, 并将该标签加入网页中的videoGrid中.
 function addVideoStream(video, stream) {
