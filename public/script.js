@@ -83,6 +83,7 @@ navigator.mediaDevices
     });
     // 监听user-connected事件.
     // 为了让本地的流发送给新接入的用户.
+    // 从服务器获取数据(新接入的用户id和用户名)
     socket.on("user-connected", (userId, name) => {
       // 输送给这个userId的对方,我们的stream, 我们的name
       connectToNewUser(userId, stream, name);
@@ -92,14 +93,17 @@ navigator.mediaDevices
 // open事件,与服务器建立连接时触发.
 myPeer.on("open", (id) => {
   // 向服务器调用join-room函数，传入ROOM_ID和id参数，分别为房间号和用户号
+  // 将本端数据传送给服务器 - sender
   socket.emit("join-room", ROOM_ID, id, user_name);
 });
 
+// 监听事件, 如果服务器发出 '用户断开连接' 命令, 则调用该方法.
+// 从服务器获取数据(离开房间的id和用户名) - receiver
 socket.on("user-disconnected", (userId, name) => {
   // 如果peers内有用户id，则令相关id关闭链接
   if (peers[userId]) {
     peers[userId].close();
-    names[name].close();
+    names[userId].close();
   }
 });
 
@@ -130,6 +134,8 @@ function addNameText(li, text) {
   nameGrid.append(li);
 }
 
+// 该方法用于与新用户交换视频流.
+// 此处的id是对方的id,本地的流和用户名.
 function connectToNewUser(userId, stream, name) {
   // stream media connection
   // 本地发送stream到对端, 此处是caller
@@ -138,18 +144,20 @@ function connectToNewUser(userId, stream, name) {
   const li = document.createElement("li");
   video.autoplay;
   video.playsinline;
-  // 监听stream事件,即另一端发送stream过来
+  // 监听stream事件,即另一端发送stream过来, receiver.
   mediaConnection.on("stream", (userVideoStream) => {
     // 将收到的stream放进本地浏览器客户端
     addVideoStream(video, userVideoStream);
-    addNameText(li, user_name);
+    // 加名字标签
+    addNameText(li, name);
   });
   mediaConnection.on("close", () => {
     video.remove();
+    // 去掉名字标签
     li.remove();
   });
   peers[userId] = mediaConnection;
-  names[user_name] = dataConnection;
+  names[userId] = name;
 }
 
 // mute function ---------------------------------------------------------------------
