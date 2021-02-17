@@ -45,6 +45,7 @@ getUserName().then((text) => {
   addNameText(myLi, myName);
   // 监听connection事件
   myPeer.on("connection", (dataConnection) => {
+    dataConnection.open = true
     dataConnection.on("open", () => {
       const li = document.createElement("li");
       // send
@@ -144,6 +145,7 @@ function connectToNewUser(userId, stream, name) {
   // name
   const dataConnection = myPeer.connect(userId);
   const li = document.createElement("li");
+  dataConnection.open = true
   dataConnection.on("data", (data) => {
     addNameText(li, data);
   });
