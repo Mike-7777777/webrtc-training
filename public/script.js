@@ -8,7 +8,7 @@ const nameGrid = document.getElementById("name-grid");
 //     port: '3001',
 // })
 // server test
-const myPeer = new Peer({
+const myPeer = new Peer(undefined, {
   config: {
     iceServers: [
       {
@@ -45,11 +45,15 @@ getUserName().then((text) => {
   addNameText(myLi, myName);
   // 监听connection事件
   myPeer.on("connection", (dataConnection) => {
-    const li = document.createElement("li");
-    dataConnection.send(myName)
-    dataConnection.on("data", (data) => {
-      addNameText(li, data);
-    })
+    dataConnection.on("open", () => {
+      const li = document.createElement("li");
+      // send
+      dataConnection.send(myName);
+      // receive
+      dataConnection.on("data", (data) => {
+        addNameText(li, data);
+      });
+    });
   });
 });
 // 获取本地媒体流
@@ -81,7 +85,7 @@ navigator.mediaDevices
 
 // open事件,与服务器建立连接时触发.
 myPeer.on("open", (id) => {
-  // 使用join-room函数，传入ROOM_ID和id参数，分别为房间号和用户号
+  // 向服务器调用join-room函数，传入ROOM_ID和id参数，分别为房间号和用户号
   socket.emit("join-room", ROOM_ID, id, user_name);
 });
 
@@ -102,7 +106,6 @@ function getUserName() {
     alert("Invalid username");
     return Promise.reject(e);
   }
-  
 }
 // 将一个stream加载到传入的video标签中播放, 并将该标签加入网页中的videoGrid中.
 function addVideoStream(video, stream) {
@@ -143,7 +146,7 @@ function connectToNewUser(userId, stream, name) {
   const li = document.createElement("li");
   dataConnection.on("data", (data) => {
     addNameText(li, data);
-  })
+  });
   dataConnection.on("close", () => {
     li.remove();
   });
