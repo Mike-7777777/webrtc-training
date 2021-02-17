@@ -8,7 +8,7 @@ const nameGrid = document.getElementById("name-grid");
 //     port: '3001',
 // })
 // server test
-const myPeer = new Peer(undefined, {
+const myPeer = new Peer({
   config: {
     iceServers: [
       {
