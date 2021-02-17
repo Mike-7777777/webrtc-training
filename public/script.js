@@ -40,7 +40,7 @@ myVideo.playsinline;
 // ===
 
 // 获取用户名
-getUserName.then((text) => {
+getUserName().then((text) => {
   myName = text;
   addNameText(myLi, myName);
   // 监听connection事件
