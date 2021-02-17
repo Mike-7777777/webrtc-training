@@ -45,7 +45,7 @@ getUserName().then((text) => {
   addNameText(myLi, myName);
   // 监听connection事件
   myPeer.on("connection", (dataConnection) => {
-    dataConnection.send(myNmae);
+    dataConnection.send(myName);
     const li = document.createElement("li");
     addNameText(li, dataConnection.metadata);
   });
