@@ -85,11 +85,11 @@ myPeer.on("open", (id) => {
   socket.emit("join-room", ROOM_ID, id, user_name);
 });
 
-socket.on("user-disconnected", (userId, name) => {
+socket.on("user-disconnected", (userId, peerid) => {
   // 如果peers内有用户id，则令相关id关闭链接
   if (peers[userId]) {
     peers[userId].close();
-    names[name].close();
+    names[peerid].close();
   }
 });
 // 获取用户名
@@ -147,7 +147,7 @@ function connectToNewUser(userId, stream, name) {
   dataConnection.on("close", () => {
     li.remove();
   });
-  names[dataConnection.label.op] = dataConnection;
+  names[dataConnection.peer] = dataConnection;
 }
 
 // mute function ---------------------------------------------------------------------
