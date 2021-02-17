@@ -45,9 +45,11 @@ getUserName().then((text) => {
   addNameText(myLi, myName);
   // 监听connection事件
   myPeer.on("connection", (dataConnection) => {
-    dataConnection.send(myName);
     const li = document.createElement("li");
-    addNameText(li, dataConnection.metadata);
+    dataConnection.send(myName)
+    dataConnection.on("data", (data) => {
+      addNameText(li, data);
+    })
   });
 });
 // 获取本地媒体流
@@ -137,13 +139,15 @@ function connectToNewUser(userId, stream, name) {
   });
   peers[userId] = mediaConnection;
   // name
-  const dataConnection = myPeer.connect(userId, { metadata: name });
+  const dataConnection = myPeer.connect(userId);
   const li = document.createElement("li");
-  addNameText(li, dataConnection.metadata)
+  dataConnection.on("data", (data) => {
+    addNameText(li, data);
+  })
   dataConnection.on("close", () => {
     li.remove();
   });
-  names[dataConnection.metadata] = dataConnection;
+  names[dataConnection.label.op] = dataConnection;
 }
 
 // mute function ---------------------------------------------------------------------
