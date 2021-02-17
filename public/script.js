@@ -39,13 +39,17 @@ myVideo.autoplay;
 myVideo.playsinline;
 // ===
 
+// 
+// 问题: 后续页面打开后,无法获得前序页面的用户名. 
+// 但是这个逻辑是和视频类似的,但是没有相似的问题.
+// 
+
 // 获取用户名
 getUserName().then((text) => {
   myName = text;
   addNameText(myLi, myName);
   // 监听connection事件
   myPeer.on("connection", (dataConnection) => {
-    dataConnection.open = true
     dataConnection.on("open", () => {
       const li = document.createElement("li");
       // send
@@ -61,7 +65,7 @@ getUserName().then((text) => {
 navigator.mediaDevices
   .getUserMedia({
     // constraints
-    video: false,
+    video: true,
     audio: true,
   })
   .then((stream) => {
@@ -97,6 +101,7 @@ socket.on("user-disconnected", (userId, peerid) => {
     names[peerid].close();
   }
 });
+
 // 获取用户名
 function getUserName() {
   user_name = prompt("plz write u name");
@@ -145,7 +150,6 @@ function connectToNewUser(userId, stream, name) {
   // name
   const dataConnection = myPeer.connect(userId);
   const li = document.createElement("li");
-  dataConnection.open = true
   dataConnection.on("data", (data) => {
     addNameText(li, data);
   });
