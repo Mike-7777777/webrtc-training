@@ -139,7 +139,7 @@ function connectToNewUser(userId, stream, name) {
   // name
   const dataConnection = myPeer.connect(userId, { metadata: name });
   const li = document.createElement("li");
-  dataConnection.on("");
+  addNameText(li, dataConnection.metadata)
   dataConnection.on("close", () => {
     li.remove();
   });
