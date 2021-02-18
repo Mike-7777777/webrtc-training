@@ -1,4 +1,10 @@
 // 04.30
+// 看来dataCon更适合用来做文字/文件交流.
+
+
+
+// 目前看来,如果mediaConnection这个对象自身存在一些string的属性就好了.
+// 其实确实有这个属性, 但是还需要一些研究, metadata(由发起者传入)和peer(需要探明有谁传入,还是存储了两个,在两端有不同表现)都有这个潜力.
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const nameGrid = document.getElementById("name-grid");
@@ -47,6 +53,8 @@ myVideo.playsinline;
 
 // 新收获: 其实并不需要dataConnection,
 // 只需要现在的情况下把服务器端的name变量用好就可以了.
+// *更新: 如果用当前的版本, 由于只有在user-connected调用时才会触发, 
+// *前序的用户可以获得后面链接过来了的用户,后续的不会获得前序的.
 
 // 新收获: 使用dataConnection的话需要解决后续页面不显示前序视频的问题.
 // 这个问题应该与视频的on call方法内没有写 call.on
@@ -71,9 +79,11 @@ navigator.mediaDevices
     // 监听call命令，收到后进行answer, 在本地新建一个video标签来展示这个peer的stream
     myPeer.on("call", (mediaConnection) => {
       // 前序页面获得后续页面视频
+      // 这样的话接收端answer了一个stream给发送端
       // 这个mediaConnection本身就具有caller的stream数据,此处receiver使用answer返回流给caller
       mediaConnection.answer(stream);
       // 后续页面获得前序页面视频
+      // 发送端监听上面(接收端)的answer
       const video = document.createElement("video");
       video.autoplay;
       video.playsinline;
@@ -86,7 +96,7 @@ navigator.mediaDevices
     // 为了让本地的流发送给新接入的用户.
     // 从服务器获取数据(新接入的用户id和用户名)
     socket.on("user-connected", (userId, name) => {
-      // 输送给这个userId的对方,我们的stream, 我们的name
+      // 输送给这个userId的对方,我们的stream, 对方的name
       connectToNewUser(userId, stream, name);
     });
   });
@@ -100,7 +110,7 @@ myPeer.on("open", (id) => {
 
 // 监听事件, 如果服务器发出 '用户断开连接' 命令, 则调用该方法.
 // 从服务器获取数据(离开房间的id和用户名) - receiver
-socket.on("user-disconnected", (userId, name) => {
+socket.on("user-disconnected", (userId) => {
   // 如果peers内有用户id，则令相关id关闭链接
   if (peers[userId]) {
     peers[userId].close();
@@ -136,7 +146,7 @@ function addNameText(li, text) {
 }
 
 // 该方法用于与新用户交换视频流.
-// 此处的id是对方的id,本地的流和用户名.
+// 此处的id是对方(新用户)的id&用户名,本地的流.
 function connectToNewUser(userId, stream, name) {
   // stream media connection
   // 本地发送stream到对端, 此处是caller
