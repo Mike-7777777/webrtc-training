@@ -28,15 +28,15 @@ app.get("/:room", (req, res) => {
 // socket服务端内置事件connection - 任何时候只要有用户连接到服务器,就触发该事件.
 io.on("connection", (socket) => {
   // 定义了一个监听事件, 当客户端调用时,运行join-room内的所有内容
-  socket.on("join-room", (roomId, userId, name) => {
+  socket.on("join-room", (roomId, userId) => {
     // socket.io自带的join方法, 将客户端添加到指定房间内
     socket.join(roomId);
     // 向除了自己的(房间内)所有人广播'用户已连接'
-    socket.to(roomId).broadcast.emit("user-connected", userId, name);
+    socket.to(roomId).broadcast.emit("user-connected", userId);
     // 监听disconnect事件
     socket.on("disconnect", () => {
       // 向(房间内)所有人广播'用户已断开连接'
-      socket.to(roomId).broadcast.emit("user-disconnected", userId, name);
+      socket.to(roomId).broadcast.emit("user-disconnected", userId);
     });
   });
 });

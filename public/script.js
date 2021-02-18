@@ -44,6 +44,12 @@ myVideo.playsinline;
 // 但是这个逻辑是和视频类似的,但是没有相似的问题.
 // 
 
+// 新收获: 其实并不需要dataConnection, 
+// 只需要现在的情况下把服务器端的name变量用好就可以了.
+
+// 新收获: 使用dataConnection的话需要解决后续页面不显示前序视频的问题.
+// 这个问题应该与视频的on call方法内没有写 call.on
+
 // 获取用户名
 getUserName().then((text) => {
   myName = text;
@@ -72,36 +78,73 @@ navigator.mediaDevices
     // 手动添加自己的视频块
     myStream = stream;
     addVideoStream(myVideo, myStream);
+    // 这个on.call的作用是接收其他端的call, 如果没有的话这个页面就只会有自己的视频.
     // 监听call命令，收到后进行answer, 在本地新建一个video标签来展示这个peer的stream
     myPeer.on("call", (mediaConnection) => {
+      // 前序页面获得后续页面视频
+      // 这个mediaConnection本身就具有caller的stream数据,此处receiver使用answer返回流给caller
       mediaConnection.answer(stream);
+      // 后续页面获得前序页面视频
       const video = document.createElement("video");
       video.autoplay;
       video.playsinline;
+      // 感觉其实不需要使用stream,因为
       mediaConnection.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
     });
-    // 监听user-connected事件, 传入userId，可传出用户??已连接
-    socket.on("user-connected", (userId, name) => {
-      connectToNewUser(userId, stream, name);
+    // 监听user-connected事件(新用户进入房间).
+    // 为了让本地的流发送给新接入的用户.
+    socket.on("user-connected", (userId) => {
+      // 输送给这个userId的对方,我们的stream
+      connectToNewUser(userId, stream);
     });
   });
 
 // open事件,与服务器建立连接时触发.
 myPeer.on("open", (id) => {
   // 向服务器调用join-room函数，传入ROOM_ID和id参数，分别为房间号和用户号
-  socket.emit("join-room", ROOM_ID, id, user_name);
+  socket.emit("join-room", ROOM_ID, id);
 });
 
-socket.on("user-disconnected", (userId, peerid) => {
+socket.on("user-disconnected", (userId) => {
   // 如果peers内有用户id，则令相关id关闭链接
   if (peers[userId]) {
     peers[userId].close();
-    names[peerid].close();
+    names[userId].close();
   }
 });
 
+// 该方法用于与新用户交换视频流.
+// 此处的id是对方的id,本地的流.
+function connectToNewUser(userId, stream) {
+  // stream media connection 
+  // 本地发送stream到对端, 此处是caller
+  const mediaConnection = myPeer.call(userId, stream);
+
+  const video = document.createElement("video"); video.autoplay; video.playsinline;
+  // 监听stream事件,即另一端(新用户)发送stream过来
+  mediaConnection.on("stream", (userVideoStream) => {
+    // 将收到的新stream放进本地浏览器客户端
+    addVideoStream(video, userVideoStream);
+  });
+  mediaConnection.on("close", () => {
+    video.remove();
+  });
+  peers[userId] = mediaConnection;
+  // name
+  // 发起一个data的call
+  const dataConnection = myPeer.connect(userId);
+  const li = document.createElement("li");
+  // 监听对面发送的信息
+  dataConnection.on("data", (data) => {
+    addNameText(li, data);
+    names[data] = dataConnection;
+  });
+  dataConnection.on("close", () => {
+    li.remove();
+  });
+}
 // 获取用户名
 function getUserName() {
   user_name = prompt("plz write u name");
@@ -134,30 +177,6 @@ function addNameText(li, text) {
 //   nameGrid.append(li);
 // }
 
-function connectToNewUser(userId, stream, name) {
-  // stream
-  const mediaConnection = myPeer.call(userId, stream);
-  const video = document.createElement("video");
-  video.autoplay;
-  video.playsinline;
-  mediaConnection.on("stream", (userVideoStream) => {
-    addVideoStream(video, userVideoStream);
-  });
-  mediaConnection.on("close", () => {
-    video.remove();
-  });
-  peers[userId] = mediaConnection;
-  // name
-  const dataConnection = myPeer.connect(userId);
-  const li = document.createElement("li");
-  dataConnection.on("data", (data) => {
-    addNameText(li, data);
-  });
-  dataConnection.on("close", () => {
-    li.remove();
-  });
-  names[dataConnection.peer] = dataConnection;
-}
 
 // mute function ---------------------------------------------------------------------
 // mute all remote sound
