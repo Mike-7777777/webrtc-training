@@ -39,12 +39,12 @@ myVideo.autoplay;
 myVideo.playsinline;
 // ===
 
-// 
-// 问题: 后续页面打开后,无法获得前序页面的用户名. 
+//
+// 问题: 后续页面打开后,无法获得前序页面的用户名.
 // 但是这个逻辑是和视频类似的,但是没有相似的问题.
-// 
+//
 
-// 新收获: 其实并不需要dataConnection, 
+// 新收获: 其实并不需要dataConnection,
 // 只需要现在的情况下把服务器端的name变量用好就可以了.
 
 // 新收获: 使用dataConnection的话需要解决后续页面不显示前序视频的问题.
@@ -56,14 +56,14 @@ getUserName().then((text) => {
   addNameText(myLi, myName);
   // 监听connection事件
   myPeer.on("connection", (dataConnection) => {
-    dataConnection.on("open", () => {
-      const li = document.createElement("li");
-      // send
-      dataConnection.send(myName);
-      // receive
-      dataConnection.on("data", (data) => {
-        addNameText(li, data);
-      });
+    const li = document.createElement("li");
+    // send
+    dataConnection.send(myName);
+  });
+  dataConnection.on("open", () => {
+    // receive
+    dataConnection.on("data", (data) => {
+      addNameText(li, data);
     });
   });
 });
@@ -118,11 +118,13 @@ socket.on("user-disconnected", (userId) => {
 // 该方法用于与新用户交换视频流.
 // 此处的id是对方的id,本地的流.
 function connectToNewUser(userId, stream) {
-  // stream media connection 
+  // stream media connection
   // 本地发送stream到对端, 此处是caller
   const mediaConnection = myPeer.call(userId, stream);
 
-  const video = document.createElement("video"); video.autoplay; video.playsinline;
+  const video = document.createElement("video");
+  video.autoplay;
+  video.playsinline;
   // 监听stream事件,即另一端(新用户)发送stream过来
   mediaConnection.on("stream", (userVideoStream) => {
     // 将收到的新stream放进本地浏览器客户端
@@ -176,7 +178,6 @@ function addNameText(li, text) {
 //   li.textContent = text;
 //   nameGrid.append(li);
 // }
-
 
 // mute function ---------------------------------------------------------------------
 // mute all remote sound
