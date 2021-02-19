@@ -96,10 +96,10 @@ navigator.mediaDevices
         mediaConnection.on("stream", (userVideoStream) => {
           addVideoStream(video, userVideoStream,'audio');
         });
-        if(peers[userId]){
+        if(peers[mediaConnection.peer]){
           //
         }else{
-          peers[userId] = mediaConnection;
+          peers[mediaConnection.peer] = mediaConnection;
         }
       }
     });
