@@ -19,7 +19,7 @@
         /* 自动填充 宽的视频图像 */
         grid-template-columns: repeat(auto-fill, 300px);
         /* 视频图像的高 */
-        grid-auto-rows: 300px;
+        grid-auto-rows: 100px;
     }
 
     #name-grid {
@@ -30,6 +30,13 @@
         grid-auto-rows: 100px;
     }
 
+    #screen-grid{
+        display: grid;
+        /* 自动填充 宽的视频图像 */
+        grid-template-columns: repeat(auto-fill, 1920px);
+        /* 视频图像的高 */
+        grid-auto-rows: 1080px;
+    }
     video {
         width: 100%;
         height: 100%;
@@ -48,8 +55,9 @@
 <body>
     <!-- 按钮控制区 -->
     <div class="btn-line">
-        <button type="button" class="btn-func" id="soundbtn">Sound</button>
+        <button type="button" class="btn-func" id="soundbtn">Mute All Sound</button>
         <button type="button" class="btn-func" id="micbtn">Mic</button>
+        <button type="button" class="btn-func" id="screenbtn">Share Screen</button>
     </div>
     <!-- 视频(音频)块 -->
     <div id="video-grid" autoplay playsinline></div>
@@ -59,6 +67,10 @@
         另一种是直接二合一 -->
     <div id="name-grid">
         <!-- 由li标签组成 -->
+    </div>
+    <!-- 屏幕共享 -->
+    <div id="screen-grid">
+        <!-- 由video组成 -->
     </div>
     <!-- <textarea id="chat"></textarea> -->
 
