@@ -110,6 +110,8 @@ navigator.mediaDevices
 screenbtn.onclick = function () {
   navigator.mediaDevices.getDisplayMedia({ video: true }).then((screen) => {
     screenShareId = Peer.id
+    const myScreen = document.createElement("video");
+    addVideoStream(myScreen, screen,'screen');
     Object.keys(peers).forEach((key) => {
       const screenConn = myPeer.call(peers[key].peer, screen, {
         metadata: "screen",
