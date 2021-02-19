@@ -96,6 +96,11 @@ navigator.mediaDevices
         mediaConnection.on("stream", (userVideoStream) => {
           addVideoStream(video, userVideoStream,'audio');
         });
+        if(peers[userId]){
+          //
+        }else{
+          peers[userId] = mediaConnection;
+        }
       }
     });
     // 监听user-connected事件(新用户进入房间).
