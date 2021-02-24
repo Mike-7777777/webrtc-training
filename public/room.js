@@ -203,7 +203,7 @@ function connectToNewUser(userId, stream) {
         content: myName,
       };
       addNameText(li, data.content);
-      names[data] = dataConnection;
+      names[userId] = dataConnection;
       dataConnection.send(obj);
     } else if (data.type === "chat") {
       getChat(data);
@@ -217,7 +217,7 @@ function connectToNewUser(userId, stream) {
 function getUserName() {
   myName = prompt("plz write u name");
   if (myName != null) {
-    alert("welcome! ur name is: " + myName);
+    alert("welcome! " + myName);
     return Promise.resolve(myName);
   } else {
     alert("Invalid username");
