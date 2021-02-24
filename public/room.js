@@ -281,7 +281,7 @@ micbtn.onclick = function () {
 sendbtn.onclick = function () {
   let myText = chati.textContent;
   const obj = {
-    type: chat,
+    type: 'chat',
     sender: myName,
     content: myText,
   };
@@ -301,7 +301,7 @@ function getChat(obj) {
 function pushRoomChat(ct) {
   Object.keys(names).forEach((i) => {
     const obj = {
-      type: chat,
+      type: 'chat',
       sender: myName,
       content: ct,
     };
