@@ -290,7 +290,7 @@ socket.on("roommsgs2c", (obj) => {
 // or send it to every dataconnection channel.
 function getChat(obj) {
   if (obj.content) {
-    chato.value += obj.sender + obj.content + "\r\n";
+    chato.value += obj.sender + ': ' + obj.content + "\r\n";
   } else {
     console.log("reveived msg is null");
   }
