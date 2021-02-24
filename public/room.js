@@ -205,8 +205,8 @@ function connectToNewUser(userId, stream) {
       addNameText(li, data.content);
       names[data] = dataConnection;
       dataConnection.send(obj);
-    }else if(data.type === 'chat'){
-      getChat(data)
+    } else if (data.type === "chat") {
+      getChat(data);
     }
   });
   dataConnection.on("close", () => {
@@ -267,7 +267,7 @@ soundbtn.onclick = function () {
 const micbtn = document.getElementById("micbtn");
 // https://www.jianshu.com/p/b1a6a2c77f1f
 micbtn.onclick = function () {
-  var tracks = myStream.getTracks(); //stream为MediaStream
+  let tracks = myStream.getTracks(); //stream为MediaStream
   tracks.forEach((item) => {
     if (item.kind === "audio" && item.enabled === true) {
       item.enabled = false;
@@ -278,6 +278,15 @@ micbtn.onclick = function () {
 };
 // mute function ---------------------------------------------------------------------
 // chat function
+sendbtn.onclick = function () {
+  let myText = chati.textContent;
+  const obj = {
+    type: chat,
+    sender: myName,
+    content: myText,
+  };
+  pushRoomChat(obj);
+};
 // let the msg go to server, and boardcast to everyone.
 // or send it to every dataconnection channel.
 function getChat(obj) {
