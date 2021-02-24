@@ -286,6 +286,7 @@ sendbtn.onclick = function () {
     content: myText,
   };
   pushRoomChat(obj);
+  chati.textContent = ''
 };
 // let the msg go to server, and boardcast to everyone.
 // or send it to every dataconnection channel.
