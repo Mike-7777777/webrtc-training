@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
     });
     // 监听全体(房间)消息
     socket.on("roommsgc2s", (obj) => {
-      socket.to(roomId).emit("roommsgs2c", obj);
+      socket.in(roomId).emit("roommsgs2c", obj);
     })
   });
 });
