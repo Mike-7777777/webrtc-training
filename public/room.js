@@ -279,15 +279,15 @@ micbtn.onclick = function () {
 // mute function ---------------------------------------------------------------------
 // chat function
 sendbtn.onclick = function () {
-  let myText = chati.textContent;
+  let myText = chati.value;
   pushRoomChat(myText);
-  chati.textContent = ''
+  chati.value = ''
 };
 // let the msg go to server, and boardcast to everyone.
 // or send it to every dataconnection channel.
 function getChat(obj) {
   if (obj.content) {
-    chato.textContent += obj.sender + obj.content + "\r\n";
+    chato.value += obj.sender + obj.content + "\r\n";
   } else {
     console.log("reveived msg is null");
   }
