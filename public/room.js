@@ -76,7 +76,7 @@ getUserName().then((text) => {
         if (obj.type === "name") {
           addNameText(li, obj.content);
         } else if (obj.type === "chat") {
-          getChat(obj);
+          // getChat(obj);
         }
       });
     });
@@ -206,7 +206,7 @@ function connectToNewUser(userId, stream) {
       names[userId] = dataConnection;
       dataConnection.send(obj);
     } else if (data.type === "chat") {
-      getChat(data);
+      // getChat(data);
     }
   });
   dataConnection.on("close", () => {
@@ -280,9 +280,12 @@ micbtn.onclick = function () {
 // chat function
 sendbtn.onclick = function () {
   let myText = chati.value;
-  pushRoomChat(myText);
-  chati.value = ''
+  pushRoomChatToServer(myText);
+  chati.value = "";
 };
+socket.on("roommsgs2c", (obj) => {
+  getChat(obj);
+});
 // let the msg go to server, and boardcast to everyone.
 // or send it to every dataconnection channel.
 function getChat(obj) {
@@ -292,14 +295,23 @@ function getChat(obj) {
     console.log("reveived msg is null");
   }
 }
-// p2p
+// p2p 失败啦，要想实现的话最方便是服务端维护一个names列表。
 function pushRoomChat(ct) {
   Object.keys(names).forEach((i) => {
     const obj = {
-      type: 'chat',
+      type: "chat",
       sender: myName,
       content: ct,
     };
     names[i].send(obj);
   });
+}
+// 发给服务端让后群发
+function pushRoomChatToServer(ct) {
+  const obj = {
+    type: "chat",
+    sender: myName,
+    content: ct,
+  };
+  socket.emit("roommsgc2s", obj);
 }

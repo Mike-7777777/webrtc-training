@@ -39,6 +39,10 @@ io.on("connection", (socket) => {
       // 向(房间内)所有人广播'用户已断开连接'
       socket.to(roomId).broadcast.emit("user-disconnected", userId);
     });
+    // 监听全体(房间)消息
+    socket.on("roommsgc2s", (obj) => {
+      socket.to(roomId).emit("roommsgs2c", obj);
+    })
   });
 });
 
