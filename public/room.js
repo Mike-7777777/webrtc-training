@@ -280,12 +280,7 @@ micbtn.onclick = function () {
 // chat function
 sendbtn.onclick = function () {
   let myText = chati.textContent;
-  const obj = {
-    type: 'chat',
-    sender: myName,
-    content: myText,
-  };
-  pushRoomChat(obj);
+  pushRoomChat(myText);
   chati.textContent = ''
 };
 // let the msg go to server, and boardcast to everyone.
