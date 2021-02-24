@@ -3,6 +3,9 @@ const videoGrid = document.getElementById("video-grid");
 const nameGrid = document.getElementById("name-grid");
 const screenGrid = document.getElementById("screen-grid");
 const screenbtn = document.getElementById("screenbtn");
+const sendbtn = document.getElementById("sendbtn");
+const chati = document.getElementById("chat-in");
+const chato = document.getElementById("chat-out");
 
 // ==========================================================
 // local test
@@ -62,10 +65,19 @@ getUserName().then((text) => {
     dataConnection.on("open", () => {
       const li = document.createElement("li");
       // send
-      dataConnection.send(myName);
+      const obj = {
+        type: "name",
+        sender: myName,
+        content: myName,
+      };
+      dataConnection.send(obj);
       // receive
-      dataConnection.on("data", (data) => {
-        addNameText(li, data);
+      dataConnection.on("data", (obj) => {
+        if (obj.type === "name") {
+          addNameText(li, obj.content);
+        } else if (obj.type === "chat") {
+          getChat(obj);
+        }
       });
     });
   });
@@ -80,7 +92,7 @@ navigator.mediaDevices
   .then((stream) => {
     // 手动添加自己的视频块
     myStream = stream;
-    addVideoStream(myVideo, myStream,'audio');
+    addVideoStream(myVideo, myStream, "audio");
     // 这个on.call的作用是接收其他端的call, 如果没有的话这个页面就只会有自己的视频.
     // 监听call命令，收到后进行answer, 在本地新建一个video标签来展示这个peer的stream
     myPeer.on("call", (mediaConnection) => {
@@ -94,11 +106,11 @@ navigator.mediaDevices
         video.playsinline;
         // 感觉其实不需要使用stream,因为
         mediaConnection.on("stream", (userVideoStream) => {
-          addVideoStream(video, userVideoStream,'audio');
+          addVideoStream(video, userVideoStream, "audio");
         });
-        if(peers[mediaConnection.peer]){
+        if (peers[mediaConnection.peer]) {
           //
-        }else{
+        } else {
           peers[mediaConnection.peer] = mediaConnection;
         }
       }
@@ -114,9 +126,9 @@ navigator.mediaDevices
 // 推出/获取本地屏幕捕捉流
 screenbtn.onclick = function () {
   navigator.mediaDevices.getDisplayMedia({ video: true }).then((screen) => {
-    screenShareId = Peer.id
+    screenShareId = Peer.id;
     const myScreen = document.createElement("video");
-    addVideoStream(myScreen, screen,'screen');
+    addVideoStream(myScreen, screen, "screen");
     Object.keys(peers).forEach((key) => {
       const screenConn = myPeer.call(peers[key].peer, screen, {
         metadata: "screen",
@@ -132,12 +144,12 @@ screenbtn.onclick = function () {
 myPeer.on("call", (call) => {
   if (call.metadata === "screen") {
     call.answer();
-    screenShareId = call.peer
+    screenShareId = call.peer;
     const screenVideo = document.createElement("video");
     screenVideo.autoplay;
     screenVideo.playsinline;
     call.on("stream", (screenStream) => {
-      addVideoStream(screenVideo, screenStream,'screen');
+      addVideoStream(screenVideo, screenStream, "screen");
     });
   }
 });
@@ -155,8 +167,8 @@ socket.on("user-disconnected", (userId) => {
     names[userId].close();
   }
   // 如果断开连接的是直播主,则断开直播连接.
-  if (userId === screenShare.peer){
-    screenShare.close()
+  if (userId === screenShare.peer) {
+    screenShare.close();
   }
 });
 
@@ -172,7 +184,7 @@ function connectToNewUser(userId, stream) {
   // 监听stream事件,即另一端(新用户)发送stream过来
   mediaConnection.on("stream", (userVideoStream) => {
     // 将收到的新stream放进本地浏览器客户端
-    addVideoStream(video, userVideoStream,'audio');
+    addVideoStream(video, userVideoStream, "audio");
   });
   mediaConnection.on("close", () => {
     video.remove();
@@ -184,9 +196,18 @@ function connectToNewUser(userId, stream) {
   const li = document.createElement("li");
   // 监听对面发送的信息
   dataConnection.on("data", (data) => {
-    addNameText(li, data);
-    names[data] = dataConnection;
-    dataConnection.send(myName);
+    if (data.type === "name") {
+      const obj = {
+        type: "name",
+        sender: myName,
+        content: myName,
+      };
+      addNameText(li, data.content);
+      names[data] = dataConnection;
+      dataConnection.send(obj);
+    }else if(data.type === 'chat'){
+      getChat(data)
+    }
   });
   dataConnection.on("close", () => {
     li.remove();
@@ -211,12 +232,11 @@ function addVideoStream(video, stream, type) {
   video.addEventListener("loadedmetadata", () => {
     video.play();
   });
-  if (type === 'audio') {
+  if (type === "audio") {
     videoGrid.append(video);
-  }else if (type === 'screen'){
-    screenGrid.append(video)
+  } else if (type === "screen") {
+    screenGrid.append(video);
   }
-  
 }
 
 function addNameText(li, text) {
@@ -257,3 +277,24 @@ micbtn.onclick = function () {
   });
 };
 // mute function ---------------------------------------------------------------------
+// chat function
+// let the msg go to server, and boardcast to everyone.
+// or send it to every dataconnection channel.
+function getChat(obj) {
+  if (obj.content) {
+    chato.textContent += obj.sender + obj.content + "\r\n";
+  } else {
+    console.log("reveived msg is null");
+  }
+}
+// p2p
+function pushRoomChat(ct) {
+  Object.keys(names).forEach((i) => {
+    const obj = {
+      type: chat,
+      sender: myName,
+      content: ct,
+    };
+    names[i].send(obj);
+  });
+}
