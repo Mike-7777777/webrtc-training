@@ -6,6 +6,7 @@ const screenbtn = document.getElementById("screenbtn");
 const sendbtn = document.getElementById("sendbtn");
 const chati = document.getElementById("chat-in");
 const chato = document.getElementById("chat-out");
+const clearbtn = document.getElementById("clearbtn");
 
 // ==========================================================
 // local test
@@ -284,13 +285,16 @@ sendbtn.onclick = function () {
   chati.value = "";
 };
 socket.on("roommsgs2c", (obj) => {
-  getChat(obj);
+  getRoomChat(obj);
 });
+clearbtn.onclick = function () {
+  chato.value = "";
+};
 // let the msg go to server, and boardcast to everyone.
 // or send it to every dataconnection channel.
-function getChat(obj) {
+function getRoomChat(obj) {
   if (obj.content) {
-    chato.value += obj.sender + ': ' + obj.content + "\r\n";
+    chato.value += "[room]" + obj.sender + ": " + obj.content + "\r\n";
   } else {
     console.log("reveived msg is null");
   }
