@@ -19,15 +19,17 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.render("intro");
 });
-
+app.get("/?room=:room &name=:name", (req, res) => {
+  res.render("room", { roomId: req.params.room, userName: req.params.name });
+});
 // 如果进入特定房间 则跳转到该房间
 // 此处的/:room 是一个变量
-app.get("/:room", (req, res) => {
+// app.get("/:room", (req, res) => {
   // render() 用于将呈现给用户的html传送给客户端
   // 此处'room'的意义是指定绘制的是room.ejs页面
-  res.render("room", { roomId: req.params.room });
+  // res.render("room", { roomId: req.params.room });
   // roomId是一个新的room.ejs的局部变量,赋值为传入的房间号req.params.room
-});
+// });
 
 // socket服务端内置事件connection - 任何时候只要有用户连接到服务器,就触发该事件.
 io.on("connection", (socket) => {

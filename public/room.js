@@ -216,7 +216,7 @@ function connectToNewUser(userId, stream) {
 }
 // 获取用户名
 function getUserName() {
-  myName = prompt("plz write u name");
+  myName = USER_NAME;
   if (myName != null) {
     alert("welcome! " + myName);
     return Promise.resolve(myName);
