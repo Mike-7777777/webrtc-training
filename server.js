@@ -19,8 +19,8 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.render("intro");
 });
-app.get("/?room=:room &name=:name", (req, res) => {
-  res.render("room", { roomId: req.params.room, userName: req.params.name });
+app.get("/room", (req, res) => {
+  res.render("room", { roomId: req.query.room,  userName: req.query.name});
 });
 // 如果进入特定房间 则跳转到该房间
 // 此处的/:room 是一个变量
