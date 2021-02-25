@@ -1,6 +1,9 @@
 const { Console } = require("console");
 const express = require("express");
+const bodyParser = require('body-parser');
 const app = express();
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({extended: false}))
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 // 方法uuidV4 - 获取一个独一无二的房间id - 使用uuid模块
@@ -20,7 +23,7 @@ app.get("/", (req, res) => {
   res.render("intro");
 });
 app.post("/go", (req, res) => {
-  res.render("room", { roomId: req.query.room,  userName: req.query.name});
+  res.render("room", { roomId: req.body.query.room,  userName: req.body.query.name});
 });
 // 如果进入特定房间 则跳转到该房间
 // 此处的/:room 是一个变量
