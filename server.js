@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
   res.render("intro");
 });
 app.post("/go", (req, res) => {
-  res.render("room", { roomId: req.query.room,  userName: req.query.name});
+  res.render("room", { roomId: req.body.room,  userName: req.body.name});
 });
 // 如果进入特定房间 则跳转到该房间
 // 此处的/:room 是一个变量
