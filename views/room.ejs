@@ -62,6 +62,8 @@
         background-position: bottom right;
         background-repeat: no-repeat;
         overflow: auto;
+        box-shadow: 1px 1px 1px #999;
+        line-height: 1.5;
     }
 
     #chat-out {
@@ -98,7 +100,7 @@
         <!-- 由video组成 -->
     </div>
     <!-- 文字聊天/信息推送 -->
-    <textarea class="chat" id="chat-out">欢迎使用miscord
+    <textarea class="chat" id="chat-out" readonly="readonly">欢迎使用miscord
 Hi, <%= userName %>, 这里是<%= roomId %>频道
     </textarea>
     <!-- 输入栏 -->
