@@ -53,6 +53,18 @@
         border-style: solid;
         border-width: 1px;
     }
+
+    #chat-out {
+        width: 600px;
+        height: 120px;
+        border: 3px solid #cccccc;
+        padding: 5px;
+        font-family: Tahoma, sans-serif;
+        background-image: url(bg.gif);
+        background-position: bottom right;
+        background-repeat: no-repeat;
+        overflow: auto;
+    }
 </style>
 
 <body>
@@ -78,10 +90,10 @@
         <!-- 由video组成 -->
     </div>
     <!-- 文字聊天/信息推送 -->
-    <textarea id="chat-out">欢迎使用miscord <br> 欢迎来到 <%= roomId %>
+    <textarea id="chat-out">欢迎使用miscord <br> Hi, <%= userName %>, 欢迎来到 <%= roomId %>
     </textarea>
     <!-- 输入栏 -->
-    <textarea id="chat-in"></textarea>
+    <textarea id="chat-in" placeholder="发个友善的消息见证当下!" cols="20" rows="5"></textarea>
 
     <!-- 用户列表 -->
 </body>
