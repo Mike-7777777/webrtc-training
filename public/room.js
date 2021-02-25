@@ -78,6 +78,8 @@ getUserName().then((text) => {
           addNameText(li, obj.content);
         } else if (obj.type === "chat") {
           // getChat(obj);
+        }else if (obj.type === "image"){
+          // getImage(obj);
         }
       });
     });
@@ -319,3 +321,4 @@ function pushRoomChatToServer(ct) {
   };
   socket.emit("roommsgc2s", obj);
 }
+// image function -----------------------------------------------------------
