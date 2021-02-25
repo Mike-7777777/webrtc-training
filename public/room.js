@@ -78,8 +78,8 @@ getUserName().then((text) => {
           addNameText(li, obj.content);
         } else if (obj.type === "chat") {
           // getChat(obj);
-        }else if (obj.type === "image"){
-          // getImage(obj);
+        }else if (obj.type === "file"){
+          // getFile(obj);
         }
       });
     });
@@ -210,6 +210,8 @@ function connectToNewUser(userId, stream) {
       dataConnection.send(obj);
     } else if (data.type === "chat") {
       // getChat(data);
+    }else if (data.type === "file"){
+      // getFile(data);
     }
   });
   dataConnection.on("close", () => {
@@ -296,7 +298,7 @@ clearbtn.onclick = function () {
 // or send it to every dataconnection channel.
 function getRoomChat(obj) {
   if (obj.content) {
-    chato.value += "[room]" + obj.sender + ": " + obj.content + "\r\n";
+    chato.value += "  [room]" + obj.sender + ": " + obj.content + "\r\n";
   } else {
     console.log("reveived msg is null");
   }
@@ -321,4 +323,13 @@ function pushRoomChatToServer(ct) {
   };
   socket.emit("roommsgc2s", obj);
 }
-// image function -----------------------------------------------------------
+// file function -----------------------------------------------------------
+filebtn.onclick = function () {
+
+}
+function getRoomFile(obj) {
+  
+}
+function pushRoomFile(params) {
+  
+}
