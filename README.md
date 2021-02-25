@@ -20,7 +20,7 @@ npm run devStart
 # 10. 编写public/scripts的代码
 # 11 使用PEERjs 为每个用户提供一个id
 peerjs --port 3001
-
+cd git/webrtc-training
 # end 运行
 npm run devStart
 peerjs --port 3001

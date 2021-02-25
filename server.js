@@ -12,9 +12,9 @@ app.use(express.static("public"));
 
 // 如果进入主页(例如https://localhost/)
 // 使用 uuid库 自动创建一个拥有独立房间号的房间 并跳转到该房间
-app.get("/", (req, res) => {
-  res.redirect(`/${uuidV4()}`);
-});
+// app.get("/", (req, res) => {
+//   res.redirect(`/${uuidV4()}`);
+// });
 // 计划:将此处render到index.ejs,也就是一个可以输入房间号和用户名的地方.
 app.get("/", (req, res) => {
   res.render("intro");
