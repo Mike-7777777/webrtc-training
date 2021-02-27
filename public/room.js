@@ -79,7 +79,7 @@ getUserName().then((text) => {
           addNameText(li, obj.content);
           names[dataConnection.peer] = obj.content;
         } else if (obj.type === "chat") {
-          getChat(obj);
+          getRoomChat(obj);
         } else if (obj.type === "file") {
           // getFile(obj);
         }
@@ -219,7 +219,7 @@ function connectToNewUser(userId, stream) {
       datas[userId] = dataConnection;
       dataConnection.send(obj);
     } else if (data.type === "chat") {
-      getChat(data);
+      getRoomChat(data);
     } else if (data.type === "file") {
       // getFile(data);
     }
