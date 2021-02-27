@@ -324,6 +324,7 @@ function pushRoomChat(ct) {
       sender: myName,
       content: ct,
     };
+    getRoomChat(obj);
     datas[i].send(obj);
   });
 }
