@@ -79,8 +79,8 @@ getUserName().then((text) => {
           addNameText(li, obj.content);
           names[dataConnection.peer] = obj.content;
         } else if (obj.type === "chat") {
-          // getChat(obj);
-        }else if (obj.type === "file"){
+          getChat(obj);
+        } else if (obj.type === "file") {
           // getFile(obj);
         }
       });
@@ -219,8 +219,8 @@ function connectToNewUser(userId, stream) {
       datas[userId] = dataConnection;
       dataConnection.send(obj);
     } else if (data.type === "chat") {
-      // getChat(data);
-    }else if (data.type === "file"){
+      getChat(data);
+    } else if (data.type === "file") {
       // getFile(data);
     }
   });
@@ -291,18 +291,23 @@ micbtn.onclick = function () {
 };
 // mute function ---------------------------------------------------------------------
 // chat function
-sendbtn.onclick = function () {
-  let myText = chati.value;
-  pushRoomChatToServer(myText);
-  chati.value = "";
-};
-socket.on("roommsgs2c", (obj) => {
-  getRoomChat(obj);
-});
+// sendbtn.onclick = function () {
+//   let myText = chati.value;
+//   pushRoomChatToServer(myText);
+//   chati.value = "";
+// };
+// socket.on("roommsgs2c", (obj) => {
+//   getRoomChat(obj);
+// });
 clearbtn.onclick = function () {
   chato.value = "";
 };
 // let the msg go to server, and boardcast to everyone.
+sendbtn.onclick = function () {
+  let myText = chati.value;
+  pushRoomChat(myText);
+  chati.value = "";
+};
 // or send it to every dataconnection channel.
 function getRoomChat(obj) {
   if (obj.content) {
@@ -332,12 +337,6 @@ function pushRoomChatToServer(ct) {
   socket.emit("roommsgc2s", obj);
 }
 // file function -----------------------------------------------------------
-filebtn.onclick = function () {
-
-}
-function getRoomFile(obj) {
-  
-}
-function pushRoomFile(params) {
-  
-}
+filebtn.onclick = function () {};
+function getRoomFile(obj) {}
+function pushRoomFile(params) {}

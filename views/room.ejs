@@ -16,66 +16,7 @@
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <title>房间页</title>
 </head>
-<style>
-    #video-grid {
-        display: grid;
-        /* 自动填充 宽的视频图像 */
-        grid-template-columns: repeat(auto-fill, 300px);
-        /* 视频图像的高 */
-        grid-auto-rows: 100px;
-    }
-
-    #name-grid {
-        display: grid;
-        /* 自动填充300宽的用户名区域 */
-        grid-template-columns: repeat(auto-fill, 300px);
-        /* 区域的高 */
-        grid-auto-rows: 100px;
-    }
-
-    #screen-grid {
-        display: grid;
-        /* 自动填充 宽的视频图像 */
-        grid-template-columns: repeat(auto-fill, 1280px);
-        /* 视频图像的高 */
-        grid-auto-rows: 720px;
-    }
-
-    video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    li {
-        list-style-type: circle;
-        width: 100%;
-        height: 100%;
-        border-style: solid;
-        border-width: 1px;
-    }
-
-    .chat {
-        border: 3px solid #cccccc;
-        padding: 5px;
-        font-family: Tahoma, sans-serif;
-        background-position: bottom right;
-        background-repeat: no-repeat;
-        overflow: auto;
-        box-shadow: 1px 1px 1px #999;
-        line-height: 1.5;
-    }
-
-    #chat-out {
-        width: 300px;
-        height: 500px;
-    }
-
-    #chat-out {
-        width: 300px;
-        height: 150px;
-    }
-</style>
+    <link rel="stylesheet" href="room.css">
 
 <body>
     <!-- 按钮控制区 -->
