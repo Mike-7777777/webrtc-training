@@ -34,6 +34,7 @@ let myStream = null;
 let myName = null;
 const peers = {};
 const names = {};
+const datas = {};
 const screenShare = {};
 
 // 创建我的视频video标签块 & 我的名字
@@ -76,12 +77,18 @@ getUserName().then((text) => {
       dataConnection.on("data", (obj) => {
         if (obj.type === "name") {
           addNameText(li, obj.content);
+          names[dataConnection.peer] = obj.content;
         } else if (obj.type === "chat") {
           // getChat(obj);
         }else if (obj.type === "file"){
           // getFile(obj);
         }
       });
+      if (datas[dataConnection.peer]) {
+        //
+      } else {
+        datas[dataConnection.peer] = dataConnection;
+      }
     });
   });
 });
@@ -138,6 +145,7 @@ screenbtn.onclick = function () {
       });
     });
     socket.on("user-connected", (userId) => {
+      chato.value += "  [info]" + ": " + names[userId] + "已连接" + "\r\n";
       const screenConn = myPeer.call(userId, screen, {
         metadata: "screen",
       });
@@ -167,12 +175,13 @@ socket.on("user-disconnected", (userId) => {
   // 如果peers内有用户id，则令相关id关闭链接
   if (peers[userId]) {
     peers[userId].close();
-    names[userId].close();
+    datas[userId].close();
   }
   // 如果断开连接的是直播主,则断开直播连接.
   if (userId === screenShare.peer) {
     screenShare.close();
   }
+  chato.value += "  [info]" + ": " + names[userId] + "已断开连接" + "\r\n";
 });
 
 // 该方法用于与新用户交换视频流.
@@ -206,7 +215,8 @@ function connectToNewUser(userId, stream) {
         content: myName,
       };
       addNameText(li, data.content);
-      names[userId] = dataConnection;
+      names[userId] = obj.content;
+      datas[userId] = dataConnection;
       dataConnection.send(obj);
     } else if (data.type === "chat") {
       // getChat(data);
@@ -222,10 +232,8 @@ function connectToNewUser(userId, stream) {
 function getUserName() {
   myName = USER_NAME;
   if (myName != null) {
-    alert("welcome! " + myName);
     return Promise.resolve(myName);
   } else {
-    alert("Invalid username");
     return Promise.reject(e);
   }
 }
@@ -303,15 +311,15 @@ function getRoomChat(obj) {
     console.log("reveived msg is null");
   }
 }
-// p2p 失败啦，要想实现的话最方便是服务端维护一个names列表。
+// p2p 失败啦，要想实现的话最方便是服务端维护一个datas列表。
 function pushRoomChat(ct) {
-  Object.keys(names).forEach((i) => {
+  Object.keys(datas).forEach((i) => {
     const obj = {
       type: "chat",
       sender: myName,
       content: ct,
     };
-    names[i].send(obj);
+    datas[i].send(obj);
   });
 }
 // 发给服务端让后群发
