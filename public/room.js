@@ -84,6 +84,9 @@ getUserName().then((text) => {
           // getFile(obj);
         }
       });
+      dataConnection.on("close", () => {
+        li.remove();
+      });
       if (datas[dataConnection.peer]) {
         //
       } else {
@@ -117,6 +120,9 @@ navigator.mediaDevices
         // 感觉其实不需要使用stream,因为
         mediaConnection.on("stream", (userVideoStream) => {
           addVideoStream(video, userVideoStream, "audio");
+        });
+        mediaConnection.on("close", () => {
+          video.remove();
         });
         if (peers[mediaConnection.peer]) {
           //
@@ -152,15 +158,18 @@ screenbtn.onclick = function () {
     });
   });
 };
-myPeer.on("call", (call) => {
-  if (call.metadata === "screen") {
-    call.answer();
-    screenShareId = call.peer;
+myPeer.on("call", (screenCall) => {
+  if (screenCall.metadata === "screen") {
+    screenCall.answer();
+    screenShareId = screenCall.peer;
     const screenVideo = document.createElement("video");
     screenVideo.autoplay;
     screenVideo.playsinline;
-    call.on("stream", (screenStream) => {
+    screenCall.on("stream", (screenStream) => {
       addVideoStream(screenVideo, screenStream, "screen");
+    });
+    screenCall.on("close", () => {
+      screenVideo.remove();
     });
   }
 });
