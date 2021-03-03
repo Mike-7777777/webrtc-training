@@ -338,6 +338,7 @@ function pushRoomChat(ct) {
   });
 }
 // 发给服务端让后群发
+// 已废弃
 function pushRoomChatToServer(ct) {
   const obj = {
     type: "chat",
