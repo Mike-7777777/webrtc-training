@@ -78,7 +78,6 @@ getUserName().then((text) => {
         if (obj.type === "name") {
           addNameText(li, obj.content);
           names[dataConnection.peer] = obj.content;
-          chato.value += "  [info]" + ": " + names[userId] + "已连接" + "\r\n";
         } else if (obj.type === "chat") {
           getRoomChat(obj);
         } else if (obj.type === "file") {
@@ -227,6 +226,7 @@ function connectToNewUser(userId, stream) {
       names[userId] = data.content;
       datas[userId] = dataConnection;
       dataConnection.send(obj);
+      chato.value += "  [info]" + ": " + names[userId] + "已连接" + "\r\n";
     } else if (data.type === "chat") {
       getRoomChat(data);
     } else if (data.type === "file") {
