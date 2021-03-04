@@ -224,7 +224,7 @@ function connectToNewUser(userId, stream) {
         content: myName,
       };
       addNameText(li, data.content);
-      names[userId] = obj.content;
+      names[userId] = data.content;
       datas[userId] = dataConnection;
       dataConnection.send(obj);
     } else if (data.type === "chat") {
