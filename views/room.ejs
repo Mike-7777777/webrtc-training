@@ -20,21 +20,31 @@
 
 <body>
     <!-- 按钮控制区 -->
+    <!-- btn control area -->
     <div class="btn-line">
-        <button type="button" class="btn-func" id="soundbtn">Mute All Sound</button>
-        <button type="button" class="btn-func" id="micbtn">Mic</button>
-        <button type="button" class="btn-func" id="screenbtn">Share Screen</button>
-        <button type="button" class="btn-func" id="sendbtn">Send</button>
-        <button type="button" class="btn-func" id="filebtn">Send</button>
-        <button type="button" class="btn-func" id="clearbtn">Clear</button>
+        <!-- Mute all sound at brower level -->
+        <button type="button" class="btn-func" id="soundbtn">网页静音</button>
+        <!-- switch local mic on/off -->
+        <button type="button" class="btn-func" id="micbtn">开/关麦克风</button>
+        <!-- share screen -->
+        <button type="button" class="btn-func" id="screenbtn">分享屏幕</button>
+        <!-- send chat text -->
+        <button type="button" class="btn-func" id="sendbtn">发送信息</button>
+        <!-- send file -->
+        <button type="button" class="btn-func" id="filebtn">发送文件</button>
+        <!-- clear chat output textarea -->
+        <button type="button" class="btn-func" id="clearbtn">清空</button>
     </div>
     <!-- 视频(音频)块 -->
+    <!-- video(audio) block -->
     <div id="video-grid" autoplay playsinline></div>
     <!-- 在线列表 -->
+    <!-- online users name-list block -->
     <!-- 两种实现方式，一种是保留vg，将其不可见，
         然后单独写用户列表，发言头像绿等features。
         另一种是直接二合一 -->
     <div id="name-grid">
+        <!-- 绿色闪烁可以用js添加/删除img元素实现 -->
         <!-- 由li标签组成 -->
     </div>
     <!-- 屏幕共享 -->
