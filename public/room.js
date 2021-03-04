@@ -78,6 +78,7 @@ getUserName().then((text) => {
         if (obj.type === "name") {
           addNameText(li, obj.content);
           names[dataConnection.peer] = obj.content;
+          chato.value += "  [info]" + ": " + names[userId] + "已连接" + "\r\n";
         } else if (obj.type === "chat") {
           getRoomChat(obj);
         } else if (obj.type === "file") {
@@ -136,7 +137,6 @@ navigator.mediaDevices
     socket.on("user-connected", (userId) => {
       // 输送给这个userId的对方,我们的stream
       connectToNewUser(userId, stream);
-      chato.value += "  [info]" + ": " + names[userId] + "已连接" + "\r\n";
     });
   });
 
