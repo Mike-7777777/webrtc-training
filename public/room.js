@@ -136,6 +136,7 @@ navigator.mediaDevices
     socket.on("user-connected", (userId) => {
       // 输送给这个userId的对方,我们的stream
       connectToNewUser(userId, stream);
+      chato.value += "  [info]" + ": " + names[userId] + "已连接" + "\r\n";
     });
   });
 
@@ -151,7 +152,6 @@ screenbtn.onclick = function () {
       });
     });
     socket.on("user-connected", (userId) => {
-      chato.value += "  [info]" + ": " + names[userId] + "已连接" + "\r\n";
       const screenConn = myPeer.call(userId, screen, {
         metadata: "screen",
       });
