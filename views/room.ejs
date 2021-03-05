@@ -13,6 +13,7 @@
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="room.js" defer></script>
+    <script src="soundbar.js" defer></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <title>房间页</title>
 </head>
@@ -43,6 +44,20 @@
     <!-- 两种实现方式，一种是保留vg，将其不可见，
         然后单独写用户列表，发言头像绿等features。
         另一种是直接二合一 -->
+    <!-- 一个标准的用户块：
+        <li> = 用户名
+        <div+p+div+div> = 音量条 https://blog.csdn.net/weixin_41770018/article/details/80968384?spm=1001.2014.3001.5501
+        <btn> = 将ta本地静音 
+        <btn> = 将ta踢出
+        <btn> = 与ta私聊
+        <btn>+弹窗 = 修改备注
+    -->
+    <div class="soundbararea">
+        <p class="soubdbartext">当前音量100%</p>
+        <div class="soundbar">
+            <div class="soundbarbox"></div>
+        </div>
+    </div>
     <div id="name-grid">
         <!-- 绿色闪烁可以用js添加/删除img元素实现 -->
         <!-- 由li标签组成 -->

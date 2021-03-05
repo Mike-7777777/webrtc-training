@@ -56,3 +56,37 @@ li {
     width: 300px;
     height: 150px;
 }
+
+.soundbararea {
+    width: 500px;
+    height: 80px;
+    margin: 100px auto;
+    position: relative;
+}
+
+.soundbar {
+    width: 500px;
+    height: 20px;
+    border-radius: 10px;
+    background: #aaa;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    cursor: pointer;
+}
+
+.soundbarbox {
+    width: 30px;
+    height: 30px;
+    background: #000;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    margin: auto 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: left 0.1s linear 0s;
+}
