@@ -5,6 +5,7 @@
 npm init -y
 # 2. 获取所需包
 npm i express ejs socket.io
+npm i -g peer
 # 3. 让用户拥有独立的id进入频道
 npm i uuid 
 # 4. 修改后自动刷新应用
@@ -25,6 +26,28 @@ cd git/webrtc-training
 npm run devStart
 peerjs --port 3001
 peerjs 
+# coturn
+vim coturn/etc turnserver.conf
+
+listening-port=3478 #指定侦听端口
+external-ip=39.105.185.198 #指定云主机的公网IP地址
+user=name:password #访问服务的用户名和密码
+realm=stun.xxx.com #域名
+
+# nohup是重定向命令，输出都将附加到当前目录的 nohup.out 文件中； 命令后加 & ,后台执行起来后按 ctr+c,不会停止
+sudo nohup turnserver -L 0.0.0.0 -a -u lqf:123456 -v -f -r nort.gov &
+sudo nohup turnserver -c turnserver.default.conf -u mike:mike7777777 -v -r wblare.com &
+#然后查看相应的端口号3478是否存在进程
+sudo lsof -i:3000
+sudo lsof -i:3478
+lsof -i:3000
+npm run devStart
+peerjs --port 3001
+194.156.99.137
+fe80::5054:ff:fefc:cbc7
+
+sudo nohup peerjs --port 3001 &
+openssl req -x509 -days 1000 -newkey rsa:2048 -keyout ./key.pem -out ./cert.pem -nodes
 ```
 
 chrome 只接受ssl https://github.com/ant-media/Ant-Media-Server/issues/1200
