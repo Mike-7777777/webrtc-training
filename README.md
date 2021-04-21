@@ -1,8 +1,8 @@
 # What did i do
 
-信令服务器：部署并配置nginx+server.js+peerjs三项服务
+信令服务器：部署并配置nginx+server.js+peerjs三项服务(需要一个域名, 一个服务器, 服务器nginx环境, 后端NODE环境, peerjs依赖)
 
-coturn服务器：部署并配置coturn服务
+coturn服务器：部署并配置coturn服务(需要一个域名, 一个服务器, coturn)
 
 
 
